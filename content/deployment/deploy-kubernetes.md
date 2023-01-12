@@ -14,12 +14,14 @@ OpenReplay deployment on Kubernetes needs:
  - **RWX PVC** (for shared components, if the cluster has more than one node). Make sure, you uncomment the below block in `openreplay/scripts/helmcharts/vars.yaml` and update the PVC name for **sink, storage** and **chalice** components:
 
 ```yaml
+# Note: PVC names should be the same for sink, storage and chalice.
 sink:
   pvc:
     name: mysharedpersistence
 storage:
   pvc:
     name: mysharedpersistence
+
 chalice:
   pvc:
     name: mysharedpersistence
