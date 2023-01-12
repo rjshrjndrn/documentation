@@ -8,13 +8,24 @@ OpenReplay deployment is based on [Helm Charts](https://helm.sh) which makes it 
 
 ## Prerequisites
 
-All we need is 
-
+OpenReplay deployment on Kubernetes needs:
  - Kubernetes **v1.18+**
  - helm **3.10+**
- - **RWX PVC** (for shared components, if cluster has more than one node). Make sure, you update the PVC name in vars.yaml for **sink,storage,chalice** components.
+ - **RWX PVC** (for shared components, if the cluster has more than one node). Make sure, you uncomment the below block in `openreplay/scripts/helmcharts/vars.yaml` and update the PVC name for **sink, storage** and **chalice** components:
 
-OpenReplay **requires** `2 vCPUs, 8 GB of RAM, 50 GB of storage` to properly run, otherwise OpenReplay backend services won't simply start. These specs are enough for a moderate volume, but if you're expecting high traffic, you should scale from here.
+```yaml
+sink:
+  pvc:
+    name: mysharedpersistence
+storage:
+  pvc:
+    name: mysharedpersistence
+chalice:
+  pvc:
+    name: mysharedpersistence
+```
+
+OpenReplay also **requires** `2 vCPUs, 8 GB of RAM, 50 GB of storage` to properly run, otherwise OpenReplay backend services won't simply start. These specs are enough for a moderate volume, but if you're expecting high traffic, you should scale from here.
 
 The deployment has been tested on the below platforms:
 - Local single-node Kube cluster
